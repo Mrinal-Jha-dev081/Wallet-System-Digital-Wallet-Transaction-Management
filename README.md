@@ -246,8 +246,11 @@ Create and beautify the README
 
 Validate system design
 
+
 Reason about transactional boundaries
 
 Identify edge cases
 
 Improve API and error-handling clarity
+
+Note- I had to use combination of manually creating getter,setter, noargsconstructor, builders and sometimes use lombok to create it, because the methods were not loading properly for some of the classes.
