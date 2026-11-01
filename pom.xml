@@ -11,11 +11,14 @@
 	<groupId>com.example</groupId>
 	<artifactId>WalletSystemApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>WalletSystemApplication</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
+	<name>Wallet System</name>
+	<description>Digital wallet and transaction management system built with Java and Spring Boot.</description>
+	<url>https://github.com/Mrinal-Jha-dev081/Wallet-System-Digital-Wallet-Transaction-Management</url>
 	<licenses>
-		<license/>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
 	</licenses>
 	<developers>
 		<developer/>
@@ -27,7 +30,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

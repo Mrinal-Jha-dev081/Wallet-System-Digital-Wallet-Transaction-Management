@@ -1,253 +1,189 @@
-💳 Wallet Transaction System
+# Wallet System: Digital Wallet & Transaction Management
 
-A Spring Boot–based transaction system that manages client wallets, supports admin-controlled credits and debits, and enables clients to create orders with external fulfillment integration.
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.9-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Status](https://img.shields.io/badge/Status-Portfolio%20Ready-success)
 
-📌 Problem Summary
+A secure digital wallet platform built with Java and Spring Boot for managing wallet balances, transactional activity, and order processing with consistency and traceability.
 
-The system maintains a wallet per client.
+This project is designed to model realistic financial workflows where balance updates, transaction history, and order execution happen under strict integrity rules. It focuses on atomic operations, auditability, and reliable behavior in high-consequence financial scenarios.
 
-Admins can credit or debit client wallets
+## Overview
 
-Clients can create orders that deduct money from their wallet
+The application provides the core building blocks of a digital wallet system:
 
-Each order triggers a fulfillment API call, and the returned fulfillment ID is stored with the order
+- Wallet creation and balance tracking
+- Credit and debit operations with validation
+- Client order creation that deducts from wallet balance
+- Fulfillment integration with external API calls
+- Append-only ledger records for audit and traceability
+- Transaction safety around business-critical operations
 
-Design Focus
+## Key Features
 
-✅ Correctness
+- Secure wallet management for clients
+- Admin-controlled credit and debit endpoints
+- Atomic order processing with validation and rollback safety
+- Transaction ledger to track every movement in the wallet
+- External fulfillment simulation using WebClient
+- Consistent JSON error responses via centralized exception handling
+- H2 in-memory database for local development and testing
 
-✅ Transactional safety
+## Architecture
 
-✅ Scalability
+The project follows a clean layered architecture:
 
-✅ Clear error handling
+- Controller layer for API endpoints
+- Service layer for business logic and transaction boundaries
+- Repository layer for persistence
+- Entity layer for domain models
+- Ledger-based audit trail for reconciliation and accountability
 
-🏗️ Architecture Overview
+## Tech Stack
 
-The application follows a layered architecture:
+- Java 17+
+- Spring Boot 3.5.9
+- Spring Web
+- Spring Data JPA
+- Spring Validation
+- H2 Database
+- WebClient for outbound HTTP calls
+- Maven
 
-Controller → Service → Repository → Database
+## Project Structure
 
-Responsibilities
+```text
+wallet-system/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/WalletSystemApplication/
+│   │   │       ├── config/
+│   │   │       ├── controller/
+│   │   │       ├── dto/
+│   │   │       ├── entity/
+│   │   │       ├── exception/
+│   │   │       ├── handler/
+│   │   │       ├── repository/
+│   │   │       ├── service/
+│   │   │       └── util/
+│   │   └── resources/
+│   └── test/
+├── pom.xml
+├── README.md
+├── LICENSE
+├── mvnw
+├── mvnw.cmd
+└── .gitignore
+```
 
-Controller
-Handles HTTP requests and request validation
+## Prerequisites
 
-Service
-Contains business logic and defines transaction boundaries
+Before running the project locally, make sure you have:
 
-Repository
-Handles database access using Spring Data JPA
+- Java 21 or newer
+- Maven 3.9+
+- Git
 
-Entity
-Domain models (Wallet, Order, WalletLedger)
+## Getting Started
 
-Global Exception Handler
-Ensures consistent error responses
+### 1. Clone the repository
 
-🧰 Tech Stack
+```bash
+git clone https://github.com/Mrinal-Jha-dev081/Wallet-System-Digital-Wallet-Transaction-Management.git
+cd Wallet-System-Digital-Wallet-Transaction-Management
+```
 
-Java 17
+### 2. Build the project
 
-Spring Boot
+```bash
+./mvnw clean install
+```
 
-Spring Web
+### 3. Run the application
 
-Spring Data JPA
+```bash
+./mvnw spring-boot:run
+```
 
-H2 In-Memory Database
+Once started, the application runs on:
 
-WebClient (external API call)
+- http://localhost:8080
 
-Hibernate Transactions
+### 4. H2 console
 
-🔌 APIs Implemented
-1️⃣ Admin – Credit Wallet
+The project includes an H2 in-memory database for local development.
 
+- URL: http://localhost:8080/h2-console
+- JDBC URL: jdbc:h2:mem:walletdb
+
+## Core API Flow
+
+### Admin operations
+
+- Credit wallet
+- Debit wallet
+- Validate balance before withdrawal
+
+### Client operations
+
+- View wallet balance
+- Create order
+- Retrieve order details
+
+### Transaction model
+
+The system processes financial actions in a transactional manner to ensure:
+
+- no partial balance deduction
+- no inconsistent ledger writes
+- safe rollback when failures occur
+- traceable audit history
+
+## Example Requests
+
+### Credit wallet
+
+```http
 POST /admin/wallet/credit
+Content-Type: application/json
 
 {
   "clientId": "client-1",
   "amount": 1000
 }
+```
 
+### Create order
 
-Behavior
-
-Adds amount to the wallet
-
-Creates a ledger entry (CREDIT)
-
-2️⃣ Admin – Debit Wallet
-
-POST /admin/wallet/debit
-
-{
-  "clientId": "client-1",
-  "amount": 200
-}
-
-
-Behavior
-
-Checks for sufficient balance
-
-Deducts amount from wallet
-
-Creates ledger entry (DEBIT)
-
-Fails if balance is insufficient
-
-3️⃣ Client – Create Order
-
+```http
 POST /orders
-
-Header
-
 client-id: client-1
-
-
-Body
+Content-Type: application/json
 
 {
   "amount": 300
 }
+```
 
+## Business Goals
 
-Workflow
+This project demonstrates how to design a wallet platform around:
 
-Validate wallet balance
+- correctness
+- transactional integrity
+- ledger-based balance tracking
+- external system integration safety
+- maintainable financial workflows
 
-Deduct wallet amount atomically
+## License
 
-Create order record
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Create ledger entry (ORDER)
+## Portfolio Note
 
-Call fulfillment API
-
-Store fulfillment ID
-
-Mark order as COMPLETED
-
-Fulfillment API
-
-POST https://jsonplaceholder.typicode.com/posts
-
-4️⃣ Client – Get Order Details
-
-GET /orders/{orderId}
-
-Header
-
-client-id: client-1
-
-
-Returns
-
-Order amount
-
-Order status
-
-Fulfillment ID
-
-5️⃣ Client – Wallet Balance
-
-GET /wallet/balance
-
-Header
-
-client-id: client-1
-
-
-Returns
-
-Current wallet balance
-
-🔄 Transaction Workflow (Core Logic)
-Order Creation (Atomic Operation)
-BEGIN TRANSACTION
- → Fetch wallet
- → Validate balance
- → Deduct wallet
- → Create order
- → Insert ledger entry
- → Call fulfillment API
- → Update order with fulfillmentId
-COMMIT
-
-
-Failure Handling
-
-Transaction rolls back
-
-Wallet balance remains consistent
-
-📒 Ledger Design
-
-Append-only ledger table
-
-Records every credit, debit, and order deduction
-
-Ensures auditability and traceability
-
-Wallet balance is derived from ledger actions
-
-⚠️ Error Handling
-
-Handled globally using @RestControllerAdvice.
-
-Scenario	HTTP Status
-Invalid input	400
-Wallet / Order not found	404
-Insufficient balance	409
-Fulfillment API failure	503
-Unexpected error	500
-
-All errors return a consistent JSON structure.
-
-🗄️ Database
-
-H2 in-memory database
-
-Auto schema creation via JPA
-
-Tables
-
-wallet
-
-wallet_ledger
-
-orders
-
-H2 Console
-http://localhost:8080/h2-console
-
-
-JDBC URL
-
-jdbc:h2:mem:walletdb
-
-▶️ How to Run
-
-Import project as a Maven project
-
-Run WalletSystemApplication
-
-Application starts at:
-
-http://localhost:8080
-
-🤖 AI Tool Usage
-
-AI tools were used to:
-
-Create and beautify the README
-
-Validate system design
-
-
-Reason about transactional boundaries
+This repository is structured to present as a professional software project in a portfolio, showcasing backend engineering, transaction design, and API-driven system thinking.
 
 Identify edge cases
 
