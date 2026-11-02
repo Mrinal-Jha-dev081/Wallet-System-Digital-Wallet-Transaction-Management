@@ -4,6 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.9-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Status](https://img.shields.io/badge/Status-Portfolio%20Ready-success)
+[![CI](https://github.com/Mrinal-Jha-dev081/Wallet-System-Digital-Wallet-Transaction-Management/actions/workflows/ci.yml/badge.svg)](https://github.com/Mrinal-Jha-dev081/Wallet-System-Digital-Wallet-Transaction-Management/actions/workflows/ci.yml)
 
 A secure digital wallet platform built with Java and Spring Boot for managing wallet balances, transactional activity, and order processing with consistency and traceability.
 
@@ -183,7 +184,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Portfolio Note
 
-This repository is structured to present as a professional software project in a portfolio, showcasing backend engineering, transaction design, and API-driven system thinking.
+This repository is structured to present as a professional software project in a portfolio, showcasing backend engineering, transaction design, API-driven system thinking, and disciplined engineering practices.
+
+## Ownership
+
+This project is maintained and published under the GitHub account of Mrinal Kumar Jha and is intended to be presented as a personal portfolio project.
 
 Identify edge cases
 
